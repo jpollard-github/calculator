@@ -13,13 +13,13 @@ pipeline {
         }
         stage("Code coverage") {
             steps {
-                sh "./mvnw report"
+                sh "./mvnw jacoco:report"
                 publishHTML (target: [
                     reportDir: 'target/site/jacoco',
                     reportFiles: 'index.html',
                     reportName: 'JaCoCo Report'
                 ])
-                sh "./mvnw check"
+                sh "./mvnw jacoco:check"
             }
         }
     }
