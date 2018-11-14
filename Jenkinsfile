@@ -22,5 +22,16 @@ pipeline {
                 sh "./mvnw jacoco:check"
             }
         }
+        stage("Static code analysis") {
+            steps {
+                sh "./mvnw checkstyle:checkstyle"
+                publishHTML (target: [
+                    reportDir: 'target/site',
+                    reportFiles: 'checkstyle.html',
+                    reportName: 'Checkstyle Report'
+                ])
+                sh "./mvnw checkstyle:check"
+            }
+        }
     }
 }
