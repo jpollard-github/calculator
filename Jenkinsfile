@@ -41,32 +41,17 @@ pipeline {
                 sh "./mvnw package"
             }
         }
-        stage("Docker build") {
-            steps {
-                sh "docker build -t jpollard91/calculator ."
-            }
-        }
-        stage("Docker push") {
-            steps {
-                sh "docker login -u jpollard91 -p m0nk3y91"
-                sh "docker push jpollard91/calculator"
-            }
-        }
-        stage("Deploy to staging") {
-            steps {
-              sh "docker-compose up -d"
-            }
-        }
         stage("Acceptance test") {
             steps {
-                sleep 60
-                sh "bash acceptance_test.sh"
+                sh "docker-compose -f docker-compose.yml -f acceptance/docker-compose-acceptance.yml build test"
+                sh "docker-compose -f docker-compose.yml -f acceptance/docker-compose-acceptance.yml -p acceptance up -d"
+                sh 'test $(docker wait acceptance_test_1) -eq 0'
             }
         }
     }
     post {
         always {
-            sh "docker-compose down"
+            sh "docker-compose -f docker-compose.yml -f acceptance/docker-compose-acceptance.yml -p acceptance down"
         }
     }
 }
