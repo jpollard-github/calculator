@@ -54,7 +54,7 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps {
-              sh "docker run -d -p 8765:8080 --name calculator jpollard91/calculator"
+              sh "docker-compose up -d"
             }
         }
         stage("Acceptance test") {
@@ -66,7 +66,7 @@ pipeline {
     }
     post {
         always {
-            sh "docker stop calculator"
+            sh "docker-compose down"
         }
     }
 }
