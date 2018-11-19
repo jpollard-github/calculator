@@ -57,17 +57,16 @@ pipeline {
               sh "docker run -d -p 8765:8080 --name calculator jpollard91/calculator"
             }
         }
-        /*
         stage("Acceptance test") {
             steps {
                 sleep 60
                 sh "bash acceptance_test.sh"
             }
-        }*/
+        }
     }
-    /*post {
+    post {
         always {
             sh "docker stop calculator"
         }
-    }*/
+    }
 }
