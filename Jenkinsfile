@@ -49,7 +49,7 @@ pipeline {
         stage("Docker push") {
             steps {
                 sh "docker login -u jpollard91@msn.com -p m0nk3y91"
-                sh "docker push jpollard91/calculator
+                sh "docker push jpollard91/calculator"
             }
         }
     }
