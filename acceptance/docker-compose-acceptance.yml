@@ -2,3 +2,4 @@ version: "3"
 services:
   test:
     build: ./acceptance
+    container_name: acceptance_test_1
